@@ -2,6 +2,7 @@ package sample.Server;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -49,14 +50,14 @@ public class Server implements Runnable {
     public void sendMessageToClients(ClientHandler clientHandler, Message message){
         for(ClientHandler clientHandler1:clientHandlers){
             if(clientHandler1 != clientHandler) {
-                    clientHandler1.sendMessage(message);
+                clientHandler1.sendMessage(message);
             }
         }
     }
 
     public void sendMessageToAllClinets(Message message){
         for (ClientHandler clientHandler:clientHandlers) {
-                clientHandler.sendMessage(message);
+            clientHandler.sendMessage(message);
         }
     }
 
@@ -74,6 +75,7 @@ public class Server implements Runnable {
 
     public void start(){
         Thread thread = new Thread(this);
+        thread.setDaemon(true);
         thread.start();
     }
 
@@ -100,10 +102,20 @@ public class Server implements Runnable {
     }
 
     public void startGame(Message message){
-        message.messageType = MessageType.startGame;
 
-        sendMessageToClinet(message, message.targetUser);
-        sendMessageToClinet(message, message.localUsername);
+        Message message1 = new Message();
+        message1.messageType = MessageType.startGame;
+        message1.startGame = true;
+        message1.turn = true;
+
+        Message message2 = new Message();
+        message2.messageType = MessageType.startGame;
+        message2.startGame = true;
+        message2.turn = false;
+
+
+        sendMessageToClinet(message1, message.localUsername);
+        sendMessageToClinet(message2, message.targetUser);
 
     }
 }

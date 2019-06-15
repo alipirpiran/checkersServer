@@ -20,6 +20,7 @@ public class Message implements Serializable {
 
     //start game fields
     public boolean startGame = false;
+    public boolean turn;
     public String localUsername;
     public String targetUser;
 
