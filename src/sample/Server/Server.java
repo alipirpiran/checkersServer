@@ -75,7 +75,7 @@ public class Server implements Runnable {
 
     public void start(){
         Thread thread = new Thread(this);
-        thread.setDaemon(true);
+//        thread.setDaemon(true);
         thread.start();
     }
 
